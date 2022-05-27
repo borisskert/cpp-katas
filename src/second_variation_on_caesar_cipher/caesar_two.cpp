@@ -205,7 +205,7 @@ std::vector<std::string> Chunks::create_chunks(unsigned int chunksize, const std
 }
 
 Chunks Chunks::from(const std::string &text) {
-    unsigned int chunksSize = ceil((double) text.length() / (double) DEFAULT_AMOUNT);
+    auto chunksSize = (unsigned int) ceil((double) text.length() / (double) DEFAULT_AMOUNT);
     const std::vector<std::string> &chunks = create_chunks(chunksSize, text);
 
     return Chunks(chunks);

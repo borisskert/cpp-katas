@@ -121,8 +121,8 @@ namespace weight_for_weight {
     std::string Join::join_strings() const {
         std::string joined;
 
-        unsigned int ultimo = strings.size() - 1;
-        unsigned int index = 0;
+        size_t ultimo = strings.size() - 1;
+        size_t index = 0;
 
         for (; index < ultimo; index++) {
             joined.append(this->strings[index]);

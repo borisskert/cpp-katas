@@ -71,5 +71,5 @@ int Tour::tour(std::vector<std::string> &arrFriends, std::vector<std::vector<std
     const std::vector<std::string> &towns = valuesBy(friendTowns, arrFriends);
     const std::vector<double> &distances = valuesBy(h, towns);
 
-    return floor(granniesDistance(distances));
+    return (int)floor(granniesDistance(distances));
 }
