@@ -40,16 +40,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install homebrew
-        run: |
-          NONINTERACTIVE=1
-          /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-      - name: Install needed software
-        run: |
-          brew update && \
-          brew install cmake \
-                       gcc
-
       - name: Build
         run: |
           cd build
