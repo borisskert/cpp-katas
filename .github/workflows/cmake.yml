@@ -15,13 +15,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install needed packages
-        run: |
-          sudo apt update
-          sudo apt install -y git \
-                              build-essential \
-                              cmake
-
       - name: Build
         run: |
           cd build
