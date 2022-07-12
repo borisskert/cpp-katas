@@ -59,36 +59,14 @@ class Greed {
 private:
     const std::vector<int> _dice;
 
-    Rule *matching_rule() {
-        for (Rule *rule: rules) {
-            if (rule->matches(_dice)) {
-                return rule;
-            }
-        }
-
-        throw std::exception();
-    }
+    Rule *matching_rule();
 
     explicit Greed(std::vector<int> dice) : _dice(std::move(dice)) {}
 
 public:
-    int score() {
-        if (_dice.empty()) {
-            return 0;
-        }
+    int score();
 
-        Rule *rule = matching_rule();
-        auto *greed = new Greed(rule->remaining(_dice));
-
-        return rule->points() + greed->score();
-    }
-
-    static Greed from(const std::vector<int> &dice) {
-        std::vector<int> copy = dice;
-        std::sort(copy.begin(), copy.end());
-
-        return Greed(copy);
-    }
+    static Greed from(const std::vector<int> &dice);
 };
 
 int score(const std::vector<int> &dice) {
@@ -127,3 +105,31 @@ bool One::matches(const std::vector<int> &dice) {
     return !dice.empty() &&
            dice.at(0) == _value;
 };
+
+Rule *Greed::matching_rule() {
+    for (Rule *rule: rules) {
+        if (rule->matches(_dice)) {
+            return rule;
+        }
+    }
+
+    throw std::exception();
+}
+
+int Greed::score() {
+    if (_dice.empty()) {
+        return 0;
+    }
+
+    Rule *rule = matching_rule();
+    auto *greed = new Greed(rule->remaining(_dice));
+
+    return rule->points() + greed->score();
+}
+
+Greed Greed::from(const std::vector<int> &dice) {
+    std::vector<int> copy = dice;
+    std::sort(copy.begin(), copy.end());
+
+    return Greed(copy);
+}
