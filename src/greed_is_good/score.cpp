@@ -43,18 +43,6 @@ public:
     int points() override { return _points; };
 };
 
-const std::vector<Rule *> rules = std::vector<Rule *>{
-        new Three(1, 1000),
-        new Three(6, 600),
-        new Three(5, 500),
-        new Three(4, 400),
-        new Three(3, 300),
-        new Three(2, 200),
-        new One(1, 100),
-        new One(5, 50),
-        new Rule()
-};
-
 class Greed {
 private:
     const std::vector<int> _dice;
@@ -104,6 +92,18 @@ std::vector<int> Three::remaining(const std::vector<int> &dice) {
 bool One::matches(const std::vector<int> &dice) {
     return !dice.empty() &&
            dice.at(0) == _value;
+};
+
+const std::vector<Rule *> rules = std::vector<Rule *>{
+        new Three(1, 1000),
+        new Three(6, 600),
+        new Three(5, 500),
+        new Three(4, 400),
+        new Three(3, 300),
+        new Three(2, 200),
+        new One(1, 100),
+        new One(5, 50),
+        new Rule()
 };
 
 Rule *Greed::matching_rule() {
