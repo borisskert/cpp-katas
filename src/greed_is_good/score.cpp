@@ -38,14 +38,9 @@ private:
 public:
     One(int value, int point) : _value(value), _points(point) {}
 
-    bool matches(const std::vector<int> &dice) override {
-        return !dice.empty() &&
-               dice.at(0) == _value;
-    };
+    bool matches(const std::vector<int> &dice) override;
 
-    int points() override {
-        return _points;
-    };
+    int points() override { return _points; };
 };
 
 const std::vector<Rule *> rules = std::vector<Rule *>{
@@ -127,3 +122,8 @@ std::vector<int> Three::remaining(const std::vector<int> &dice) {
 
     return copy;
 }
+
+bool One::matches(const std::vector<int> &dice) {
+    return !dice.empty() &&
+           dice.at(0) == _value;
+};
