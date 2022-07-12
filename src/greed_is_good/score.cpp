@@ -23,25 +23,11 @@ private:
 public:
     Three(int value, int point) : _value(value), _points(point) {}
 
-    bool matches(const std::vector<int> &dice) override {
-        return dice.size() >= 3 &&
-               dice.at(0) == _value &&
-               dice.at(1) == _value &&
-               dice.at(2) == _value;
-    };
+    bool matches(const std::vector<int> &dice) override;
 
-    int points() override {
-        return _points;
-    };
+    int points() override { return _points; };
 
-    std::vector<int> remaining(const std::vector<int> &dice) override {
-        std::vector<int> copy = dice;
-        copy.erase(copy.cbegin());
-        copy.erase(copy.cbegin());
-        copy.erase(copy.cbegin());
-
-        return copy;
-    }
+    std::vector<int> remaining(const std::vector<int> &dice) override;
 };
 
 class One : public Rule {
@@ -121,6 +107,22 @@ bool Rule::matches(const std::vector<int> &dice) {
 std::vector<int> Rule::remaining(const std::vector<int> &dice) {
     std::vector<int> copy;
     copy = dice;
+    copy.erase(copy.cbegin());
+
+    return copy;
+}
+
+bool Three::matches(const std::vector<int> &dice) {
+    return dice.size() >= 3 &&
+           dice.at(0) == _value &&
+           dice.at(1) == _value &&
+           dice.at(2) == _value;
+};
+
+std::vector<int> Three::remaining(const std::vector<int> &dice) {
+    std::vector<int> copy = dice;
+    copy.erase(copy.cbegin());
+    copy.erase(copy.cbegin());
     copy.erase(copy.cbegin());
 
     return copy;
