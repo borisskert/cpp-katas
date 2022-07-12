@@ -8,21 +8,11 @@
 
 class Rule {
 public:
-    virtual bool matches(const std::vector<int> &dice) {
-        return true;
-    };
+    virtual bool matches(const std::vector<int> &dice);
 
-    virtual int points() {
-        return 0;
-    };
+    virtual int points() { return 0; };
 
-    virtual std::vector<int> remaining(const std::vector<int> &dice) {
-        std::vector<int> copy;
-        copy = dice;
-        copy.erase(copy.cbegin());
-
-        return copy;
-    }
+    virtual std::vector<int> remaining(const std::vector<int> &dice);
 };
 
 class Three : public Rule {
@@ -122,4 +112,16 @@ public:
 
 int score(const std::vector<int> &dice) {
     return Greed::from(dice).score();
+}
+
+bool Rule::matches(const std::vector<int> &dice) {
+    return true;
+};
+
+std::vector<int> Rule::remaining(const std::vector<int> &dice) {
+    std::vector<int> copy;
+    copy = dice;
+    copy.erase(copy.cbegin());
+
+    return copy;
 }
