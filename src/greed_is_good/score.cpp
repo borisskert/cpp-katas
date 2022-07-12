@@ -15,6 +15,24 @@ public:
     virtual std::vector<int> remaining(const std::vector<int> &dice);
 };
 
+class Greed {
+private:
+    const std::vector<int> _dice;
+
+    Rule *matching_rule();
+
+    explicit Greed(std::vector<int> dice) : _dice(std::move(dice)) {}
+
+public:
+    int score();
+
+    static Greed from(const std::vector<int> &dice);
+};
+
+int score(const std::vector<int> &dice) {
+    return Greed::from(dice).score();
+}
+
 class Three : public Rule {
 private:
     const int _value;
@@ -42,24 +60,6 @@ public:
 
     int points() override { return _points; };
 };
-
-class Greed {
-private:
-    const std::vector<int> _dice;
-
-    Rule *matching_rule();
-
-    explicit Greed(std::vector<int> dice) : _dice(std::move(dice)) {}
-
-public:
-    int score();
-
-    static Greed from(const std::vector<int> &dice);
-};
-
-int score(const std::vector<int> &dice) {
-    return Greed::from(dice).score();
-}
 
 bool Rule::matches(const std::vector<int> &dice) {
     return true;
