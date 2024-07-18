@@ -1,6 +1,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include <iostream>
 
 /**
  * https://www.codewars.com/kata/58678d29dbca9a68d80000d7/train/cpp
@@ -46,6 +47,8 @@ public:
 
     char readByte();
 
+    bool next();
+
     bool isOutOfBounds() {
         return this->pointer < 0 || this->pointer >= this->content.size();
     }
@@ -78,8 +81,10 @@ public:
     std::string exposeTape();
 
     ~Machine() {
-        delete this->tape;
-        delete this->code;
+        if (this->tape != nullptr)
+            delete this->tape;
+        if (this->code != nullptr)
+            delete this->code;
     }
 
     static Machine from(std::string codeString, std::string tapeString);
@@ -98,6 +103,10 @@ void Machine::run() {
         Instruction *i = Instruction::from(instruction);
 
         if (!i->execute(*this)) {
+            break;
+        }
+
+        if (!this->code->next()) {
             break;
         }
     }
@@ -144,6 +153,8 @@ std::string Machine::exposeTape() {
 }
 
 std::string interpreter(const std::string &code, const std::string &tape) {
+    std::cout << "code: " << code << std::endl << "tape: " << tape << std::endl;
+
     Machine machine = Machine::from(code, tape);
     machine.run();
     return machine.exposeTape();
@@ -204,6 +215,8 @@ Code *Code::from(std::string string) {
 bool Code::jumpForward() {
     int openBrackets = 0;
 
+    this->pointer++;
+
     while (this->pointer < this->content.size()) {
         char current = this->content[this->pointer];
 
@@ -226,6 +239,8 @@ bool Code::jumpForward() {
 bool Code::jumpBackward() {
     int closeBrackets = 0;
 
+    this->pointer--;
+
     while (this->pointer >= 0) {
         char current = this->content[this->pointer];
 
@@ -246,7 +261,12 @@ bool Code::jumpBackward() {
 }
 
 char Code::readByte() {
-    return this->content[this->pointer++];
+    return this->content[this->pointer];
+}
+
+bool Code::next() {
+    this->pointer++;
+    return this->pointer >= 0 && this->pointer < this->content.size();
 }
 
 class MoveLeft : public Instruction {
@@ -312,7 +332,7 @@ bool FlipBit::execute(Machine &machine) {
 }
 
 bool JumpForward::execute(Machine &machine) {
-    if (machine.readBit()) {
+    if (!machine.readBit()) {
         return machine.jumpForward();
     }
 
@@ -320,7 +340,7 @@ bool JumpForward::execute(Machine &machine) {
 }
 
 bool JumpBackward::execute(Machine &machine) {
-    if (!machine.readBit()) {
+    if (machine.readBit()) {
         return machine.jumpBackward();
     }
 
