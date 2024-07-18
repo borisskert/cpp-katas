@@ -8,18 +8,22 @@
  */
 std::unordered_map<std::string, int> assembler(const std::vector<std::string> &program);
 
-class Machine;
+namespace simple_assembler_interpreter {
+    class Machine;
 
-class Instruction {
-public:
-    Instruction() = default;
+    class Instruction {
+    public:
+        Instruction() = default;
 
-    virtual void execute(Machine *machine) = 0;
-};
+        virtual void execute(Machine *machine) = 0;
+    };
+}
+
+using namespace simple_assembler_interpreter;
 
 static std::vector<Instruction *> parse_program(const std::vector<std::string> &program);
 
-class Machine {
+class simple_assembler_interpreter::Machine {
 private:
     std::unordered_map<std::string, int> registers;
     int instruction_counter = 0;
