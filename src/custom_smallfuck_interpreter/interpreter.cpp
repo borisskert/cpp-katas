@@ -47,7 +47,7 @@ public:
 
     char readByte();
 
-    bool next();
+    void next();
 
     bool isOutOfBounds() {
         return this->pointer < 0 || this->pointer >= this->content.size();
@@ -81,10 +81,8 @@ public:
     std::string exposeTape();
 
     ~Machine() {
-        if (this->tape != nullptr)
-            delete this->tape;
-        if (this->code != nullptr)
-            delete this->code;
+        delete this->tape;
+        delete this->code;
     }
 
     static Machine from(std::string codeString, std::string tapeString);
@@ -106,9 +104,7 @@ void Machine::run() {
             break;
         }
 
-        if (!this->code->next()) {
-            break;
-        }
+        this->code->next();
     }
 }
 
@@ -153,10 +149,9 @@ std::string Machine::exposeTape() {
 }
 
 std::string interpreter(const std::string &code, const std::string &tape) {
-    std::cout << "code: " << code << std::endl << "tape: " << tape << std::endl;
-
     Machine machine = Machine::from(code, tape);
     machine.run();
+
     return machine.exposeTape();
 }
 
@@ -264,9 +259,8 @@ char Code::readByte() {
     return this->content[this->pointer];
 }
 
-bool Code::next() {
+void Code::next() {
     this->pointer++;
-    return this->pointer >= 0 && this->pointer < this->content.size();
 }
 
 class MoveLeft : public Instruction {
