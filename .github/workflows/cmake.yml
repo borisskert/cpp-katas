@@ -9,11 +9,11 @@ on:
 
 jobs:
   build-linux:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build
         working-directory: ./build
@@ -26,11 +26,11 @@ jobs:
         run: ./cpp_katas_test --output=color
 
   build-macos:
-    runs-on: macos-11
+    runs-on: macos-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Build
         working-directory: ./build
@@ -43,11 +43,11 @@ jobs:
         run: ./cpp_katas_test --output=color
 
   build-windows:
-    runs-on: windows-2019
+    runs-on: windows-latest
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Install needed software
         run: |
